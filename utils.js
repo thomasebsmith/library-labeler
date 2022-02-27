@@ -11,6 +11,13 @@ function assert(cond, msg) {
   }
 }
 
+class AggregateError extends Error {
+  constructor(errors) {
+    super(errors.map(e => e.message).join("\n"));
+    this.errors = errors;
+  }
+}
+
 function showErrors(func) {
   try {
     func();
@@ -18,4 +25,8 @@ function showErrors(func) {
     console.error(error);
     alert(error.message);
   }
+}
+
+function hasProp(object, propertyName) {
+  return Object.prototype.hasOwnProperty.call(object, propertyName);
 }

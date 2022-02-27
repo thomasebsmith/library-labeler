@@ -6,10 +6,15 @@
     <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <textarea>(paste data here)</textarea>
-    <button>Process</button>
+    <label for="file-upload" accept=".tsv">Upload a file...</label>
+    <input id="file-upload" name="file-upload" type="file">
+
     <script src="pdflib.js"></script>
+    <script src="tsvlib.js"></script>
     <script src="utils.js"></script>
+    <script src="formatstring.js"></script>
+    <script src="config.js"></script>
+    <script src="extractdata.js"></script>
     <script src="createlabels.js"></script>
     <script src="main.js"></script>
   </body>
