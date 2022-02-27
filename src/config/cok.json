@@ -1,0 +1,165 @@
+{
+  "categories": {
+    "DVDs - Biblical": {
+      "format": "category+title",
+      "data": {
+        "category_abbrev": "DBIB"
+      }
+    },
+    "DVDs - Children's Biblical": {
+      "format": "category+title",
+      "data": {
+        "category_abbrev": "DCHB"
+      }
+    },
+    "DVDs - Children's Movies": {
+      "format": "category+title",
+      "data": {
+        "category_abbrev": "DCHL"
+      }
+    },
+    "DVDs - Inspirational Movies": {
+      "format": "category+title",
+      "data": {
+        "category_abbrev": "DINS"
+      }
+    },
+    "DVDs - Nonfiction": {
+      "format": "category+title",
+      "data": {
+        "category_abbrev": "DNF"
+      }
+    },
+    "Bible Studies": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "STDY"
+      }
+    },
+    "Adult Christian Fiction": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "FIC"
+      }
+    },
+    "Nonfiction and Biography": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "BIO"
+      }
+    },
+    "Family Devotions": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "FDEV"
+      }
+    },
+    "Inspiration - General": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "INS"
+      }
+    },
+    "Inspiration - Women's": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "INSW"
+      }
+    },
+    "Inspiration - Men's": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "INSM"
+      }
+    },
+    "Young Adult": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "YA"
+      }
+    },
+    "Young Adult Devotions": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "YADV"
+      }
+    },
+    "Church Leadership": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "CLED"
+      }
+    },
+    "Christian Family - Sexuality": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "FSX"
+      }
+    },
+    "Devotions": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "DEV"
+      }
+    },
+    "Young Children": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "YCH"
+      }
+    },
+    "Children's Bibles": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "CBIB"
+      }
+    },
+    "Children's Fiction": {
+      "format": "category+author",
+      "data": {
+        "category_abbrev": "CFIC"
+      }
+    },
+    "Dewey Decimal": {
+      "format": "dewey"
+    }
+  },
+  "formats": {
+    "category+title": {
+      "label": {
+        "format": "{category_abbrev}\n{title_abbrev}\n{call_number}",
+        "trim": true
+      },
+      "companion": {
+        "format": "Category: {category_abbrev} ({category})\nTitle: {title_abbrev} ({title})\nVolume/copy: {call_number}\nAuthor: {author}"
+      },
+      "sort": "{category_abbrev}{title_abbrev}{call_number}"
+    },
+    "category+author": {
+      "label": {
+        "format": "{category_abbrev}\n{author_abbrev}\n{call_number}",
+        "trim": true
+      },
+      "companion": {
+        "format": "Category: {category_abbrev} ({category})\nAuthor: {author_abbrev} ({author})\nVolume/copy: {call_number}\nTitle: {title}"
+      },
+      "sort": "{category_abbrev}{author_abbrev}{call_number}"
+    },
+    "dewey": {
+      "label": {
+        "format": "{dewey_abbrev}\n{author_abbrev}\n{call_number}",
+        "trim": true
+      },
+      "companion": {
+        "format": "Dewey Decimal: {dewey_abbrev}\nAuthor: {author_abbrev} ({author})\nVolume/copy: {call_number}\nTitle: {title}"
+      },
+      "sort": "{dewey_abbrev}{author_abbrev}{call_number}"
+    }
+  },
+  "abbreviation": {
+    "remove_articles": true,
+    "max_decimal_places": 3,
+    "max_name_characters": 3
+  },
+  "import_format": "LibraryThing"
+}
