@@ -22,7 +22,7 @@ export interface FormatEnvironment {
 }
 
 const ESCAPED_REGEX = /\\([\s\S])/g;
-const FORMAT_REGEX = /\{(([^\}]|\\\})*)\}/g;
+const FORMAT_REGEX = /\{(([^}]|\\\})*)\}/g;
 
 function unescapeBackslashes(string: string): string {
   return string.replace(ESCAPED_REGEX, "$1");

@@ -117,8 +117,8 @@ function checkAbbreviation(abbrev: unknown): asserts abbrev is Abbreviation {
     "max_name_characters is required"
   );
   assert(
-    typeof abbrev.max_name_characters === "boolean",
-    "max_name_characters must be a boolean"
+    typeof abbrev.max_name_characters === "number",
+    "max_name_characters must be a number"
   );
 }
 
@@ -148,7 +148,7 @@ function checkConfig(config: unknown): asserts config is Config {
   );
 }
 
-const CONFIG_NAME_REGEX = /^[a-zA-Z0-9_\-]+$/;
+const CONFIG_NAME_REGEX = /^[a-zA-Z0-9_-]+$/;
 
 export async function loadConfig(configName: string): Promise<Config> {
   assert(

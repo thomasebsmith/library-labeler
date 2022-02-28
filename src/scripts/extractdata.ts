@@ -1,4 +1,4 @@
-import { parse as papaParse, ParseResult } from "papaparse";
+import { parse as papaParse } from "papaparse";
 import { Config, IMPORT_FORMATS } from "./config";
 import {
   FormatEnvironment,

@@ -4,13 +4,12 @@
     "target": "ES2021",
     "strict": true,
     "isolatedModules": true,
-    "noEmit": true,
     "lib": [
       "es2021",
       "DOM"
     ]
   },
   "include": [
-    "src"
+    "src/scripts"
   ]
 }

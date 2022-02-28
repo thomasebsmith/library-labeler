@@ -61,7 +61,7 @@ function addLabel(
 export function exportPDF(
   labels: string[][],
   fileName: string,
-  showBorder: boolean = false
+  showBorder = false
 ) {
   // Check that labels is a 2D array of the appropriate dimensions
   assert(
@@ -92,4 +92,4 @@ export function exportPDF(
   }
 
   doc.save(fileName);
-};
+}
