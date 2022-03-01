@@ -1,6 +1,6 @@
 import { loadConfig } from "./config";
 import { extractItems, getSheetData } from "./extractdata";
-import { exportPDF } from "./createlabels";
+import { Avery5412, createSheets, exportPDF } from "./sheet";
 import { assert, showErrors } from "./utils";
 
 const fileUploadEl = document.getElementById("file-upload") as HTMLInputElement;
@@ -18,13 +18,13 @@ fileUploadEl.addEventListener("change", () => {
     const items = await extractItems(file, config);
     const data = getSheetData(items, config);
 
-    const labels = new Array(4).fill(null).map(
-      (_, r) => new Array(5).fill(null).map(
-        (_, c) => ((r * 5 + c) >= data.length) ? "" : data[r * 5 + c].label
-      )
+    const [labelSheets, _] = createSheets(
+      data.map(d => d.label), 
+      Avery5412.factory(),
+      []
     );
 
-    exportPDF(labels, "temp.pdf");
+    exportPDF(labelSheets, "temp.pdf");
 
   })().catch((e: Error) => showErrors(() => { throw e; }));
 });

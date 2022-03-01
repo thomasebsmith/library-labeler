@@ -11,6 +11,14 @@ export function assert(condition: boolean, msg: string): asserts condition {
   }
 }
 
+export function fatalError(msg: string): never {
+  assert(false, msg);
+}
+
+export function never(msg: never): never {
+  fatalError(msg);
+}
+
 export function showErrors(func: () => void) {
   try {
     func();
