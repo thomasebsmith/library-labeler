@@ -7,11 +7,17 @@ export interface SheetFactory {
   numCols: number;
 }
 
+export enum TextAlign {
+  Center,
+  Left,
+}
+
 export interface SheetFont {
   name: string;
   sizePt: number;
   isBold: boolean;
   lineHeightFactor: number;
+  align: TextAlign;
 }
 
 export interface SheetParams {
@@ -56,14 +62,16 @@ class Sheet {
     const x = getX(this.params, row, col);
     const y = getY(this.params, row, col);
 
-    const text = this.labels[row][col];
-    const lines = text.split("\n");
-    assert(lines.length > 0, `Invalid label text "${text}"`);
+    const lines = doc.splitTextToSize(
+      this.labels[row][col],
+      this.params.labelWidthIn
+    );
+    assert(lines.length > 0, `Invalid label text "${lines.join("\n")}"`);
 
     const textHeight = getTextHeightIn(this.params, lines.length);
     assert(
       textHeight <= this.params.labelHeightIn,
-      `Label text "${text}" is too many rows`
+      `Label text "${lines.join("\n")}" is too many rows`
     );
 
     if (showBorder) {
@@ -76,10 +84,15 @@ class Sheet {
       );
     }
 
-    const textX = x + this.params.labelWidthIn / 2;
     const textY = y + this.params.labelHeightIn / 2 - textHeight / 2;
     
-    doc.text(lines, textX, textY, {align: "center", baseline: "top"});
+    if (this.params.font.align === TextAlign.Left) {
+      const textX = x;
+      doc.text(lines, textX, textY, {align: "left", baseline: "top"});
+    } else { // TextAlign.Center
+      const textX = x + this.params.labelWidthIn / 2;
+      doc.text(lines, textX, textY, {align: "center", baseline: "top"});
+    }
   }
 
   renderLabels(doc: jsPDF, showBorder = false) {
@@ -91,8 +104,6 @@ class Sheet {
     }
   }
 }
-
-
 
 export class Avery5412 extends Sheet {
   static readonly NUM_ROWS = 4;
@@ -113,6 +124,7 @@ export class Avery5412 extends Sheet {
         sizePt: 13,
         isBold: true,
         lineHeightFactor: 1.15,
+        align: TextAlign.Center,
       },
     });
   }
@@ -120,8 +132,8 @@ export class Avery5412 extends Sheet {
   static factory(): SheetFactory {
     return {
       create: (labels) => new Avery5412(labels),
-      numRows: USLetter.NUM_ROWS,
-      numCols: USLetter.NUM_COLS,
+      numRows: Avery5412.NUM_ROWS,
+      numCols: Avery5412.NUM_COLS,
     };
   }
 }
@@ -137,23 +149,24 @@ export class USLetter extends Sheet {
       numRows: USLetter.NUM_ROWS,
       numCols: USLetter.NUM_COLS,
       labelWidthIn: 1.9,
-      labelHeightIn: 1.75,
+      labelHeightIn: 1.8125,
       colSeparationIn: 0.125,
-      rowSeparationIn: 1 / 6,
+      rowSeparationIn: 1 / 12,
       font: {
         name: "Helvetica",
-        sizePt: 12,
+        sizePt: 10,
         isBold: false,
         lineHeightFactor: 1.15,
+        align: TextAlign.Left,
       },
     });
   }
 
   static factory(): SheetFactory {
     return {
-      create: (labels) => new Avery5412(labels),
-      numRows: Avery5412.NUM_ROWS,
-      numCols: Avery5412.NUM_COLS,
+      create: (labels) => new USLetter(labels),
+      numRows: USLetter.NUM_ROWS,
+      numCols: USLetter.NUM_COLS,
     };
   }
 }

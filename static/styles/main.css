@@ -1,8 +1,7 @@
-textarea {
-  width: 90vw;
-  height: 75vh;
+:root {
+  font-family: Helvetica, Arial, sans-serif;
 }
 
-button {
-  display: block;
+#file-processors {
+  margin-top: 20px;
 }

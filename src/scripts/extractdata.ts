@@ -95,7 +95,12 @@ export async function extractItems(
   );
 }
 
-export function getSheetData(items: FormatEnvironment[], config: Config) {
+export type SheetData = { label: string; companion: string }[];
+
+export function getSheetData(
+  items: FormatEnvironment[],
+  config: Config
+): SheetData {
   const data = items.map(item => {
     // This should be guaranteed from initial category filtering
     assert(
