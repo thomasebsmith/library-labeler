@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+
+  # Allows running this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+  
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 17.x
+        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a
+        with:
+          node-version: 17.x
+
+      - name: Install node packages
+        run: npm install
+
+      - name: Build the static site
+        run: make build/release
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@830e6a4f7c81743c52f3fed0ac67428feff9620a
+        with:
+          branch: gh-pages
+          folder: build/release
+          git-config-name: github-actions[bot]
+          git-config-email: <>
+          single-commit: true
