@@ -250,8 +250,8 @@ export function createSheets(
   }
 
   const everythingFree: [number, number][] = [];
-  for (let row = 0; row < factory.numRows; ++row) {
-    for (let col = 0; col < factory.numCols; ++col) {
+  for (let row = factory.numRows - 1; row >= 0; --row) {
+    for (let col = factory.numCols - 1; col >= 0; --col) {
       everythingFree.push([row, col]);
     }
   }
@@ -273,8 +273,8 @@ export function createSheets(
         results.push(factory.create(currLabels));
       }
       if (partialIndex < partials.length) {
-        for (let row = 0; row < factory.numRows; ++row) {
-          for (let col = 0; col < factory.numCols; ++col) {
+        for (let row = factory.numRows - 1; row >= 0; --row) {
+          for (let col = factory.numCols - 1; col >= 0; --col) {
             if (partials[partialIndex][row][col] === CellState.Free) {
               freeSpaces.push([row, col]);
             }
