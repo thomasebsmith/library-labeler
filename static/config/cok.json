@@ -131,7 +131,7 @@
         "trim": true
       },
       "companion": {
-        "format": "Category: {category_abbrev} ({category})\nTitle: {title_abbrev} ({title})\nVolume/copy: {call_number}\nAuthor: {author}"
+        "format": "{category_abbrev} ({category})\n{title_abbrev} (\"{title}\")\n{call_number}\n{author}"
       },
       "sort": "{category_abbrev}{title_abbrev}{call_number}"
     },
@@ -141,7 +141,7 @@
         "trim": true
       },
       "companion": {
-        "format": "Category: {category_abbrev} ({category})\nAuthor: {author_abbrev} ({author})\nVolume/copy: {call_number}\nTitle: {title}"
+        "format": "{category_abbrev} ({category})\n{author_abbrev} ({author})\n{call_number}\n\"{title}\""
       },
       "sort": "{category_abbrev}{author_abbrev}{call_number}"
     },
@@ -151,7 +151,7 @@
         "trim": true
       },
       "companion": {
-        "format": "Dewey Decimal: {dewey_abbrev}\nAuthor: {author_abbrev} ({author})\nVolume/copy: {call_number}\nTitle: {title}"
+        "format": "{dewey_abbrev}\n{author_abbrev} ({author})\n{call_number}\n\"{title}\""
       },
       "sort": "{dewey_abbrev}{author_abbrev}{call_number}"
     }
