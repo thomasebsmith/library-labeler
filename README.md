@@ -15,6 +15,6 @@ $ cd library-labeler
 $ npm install
 $ make build/release
 # The static site now exists in ./build/release
-$ python3 -m http.server 8000 ./build/release
+$ python3 -m http.server 8000 --directory ./build/release
 # You can now visit http://localhost:8000 in your web browser
 ```
