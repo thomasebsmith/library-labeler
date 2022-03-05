@@ -233,7 +233,7 @@ function getTextHeightIn(params: SheetParams, numLines: number): number {
   return lineHeight * (numLines - 1) + toInches(params.font.sizePt);
 }
 
-enum CellState {
+export enum CellState {
   Free,
   Occuppied,
 }

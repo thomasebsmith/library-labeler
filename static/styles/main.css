@@ -5,3 +5,32 @@
 #file-processors {
   margin-top: 20px;
 }
+
+#add-partial-sheet {
+  margin-top: 20px;
+}
+
+#partial-sheets {
+  margin-top: 10px;
+}
+
+.partial {
+  border: 1px solid black;
+  font-size: 0;
+  display: inline-block;
+  margin-right: 20px;
+  padding: 4px;
+}
+
+.partial > div > input {
+  appearance: none;
+  border: 1px solid gray;
+  border-radius: 4px;
+  margin: 2px;
+  width: 48px;
+  height: 32px;
+}
+
+.partial > div > input:checked {
+  border: none;
+}
