@@ -32,6 +32,7 @@ function setSheetData(data: SheetData | null) {
 
 setSheetData(null);
 
+fileUploadEl.value = "";
 fileUploadEl.addEventListener("change", () => {
   (async () => {
     setSheetData(null);

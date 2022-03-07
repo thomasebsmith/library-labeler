@@ -6,16 +6,20 @@
     <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <label for="file-upload" accept=".tsv">Upload a file...</label>
+    <h1>Library Labeler</h1>
+    <label for="file-upload" accept=".tsv">Upload a TSV export...</label>
     <input id="file-upload" name="file-upload" type="file">
 
-    <div id="file-processors">
-      <button id="generate-labels">Generate labels</button>
-      <button id="generate-companion">Generate companion</button>
-    </div>
+    <section id="file-processors">
+      <button id="generate-labels" disabled>Generate labels</button>
+      <button id="generate-companion" disabled>Generate companion</button>
+    </section>
 
-    <button id="add-partial-sheet">+</button>
-    <div id="partial-sheets"></div>
+    <section id="partial-sheet-ui">
+      <h2>Existing Sheets</h2>
+      <button id="add-partial-sheet">+</button>
+      <div id="partial-sheets"></div>
+    </section>
 
     <script src="bundle.js"></script>
   </body>
