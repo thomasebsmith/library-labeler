@@ -45,3 +45,7 @@ input[type=checkbox]:enabled:hover {
 .partial > div > input:checked {
   border: none;
 }
+
+.partial > div > input:hover {
+  background: #EEEEEE;
+}
