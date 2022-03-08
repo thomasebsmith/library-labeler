@@ -22,3 +22,7 @@ $ make build/release
 $ python3 -m http.server 8000 --directory ./build/release
 # You can now visit http://localhost:8000 in your web browser
 ```
+
+## License
+Library Labeler is licensed as open-source software under the MIT License. See
+[LICENSE](./LICENSE) for details.
