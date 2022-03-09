@@ -46,6 +46,7 @@ interface Abbreviation {
 }
 
 export interface Config {
+  name: string;
   categories: Categories;
   formats: Formats;
   abbreviation: Abbreviation;
@@ -127,6 +128,9 @@ function checkConfig(config: unknown): asserts config is Config {
     typeof config === "object" && config !== null,
     "config must be an object"
   );
+
+  assert(hasProp(config, "name"), "name is required");
+  assert(typeof config.name === "string", "name must be a string");
 
   assert(hasProp(config, "categories"), "categories is required");
   checkCategories(config.categories);
