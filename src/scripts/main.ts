@@ -102,11 +102,15 @@ function getPartialSheets(): PartialSheet[] {
   return partials;
 }
 
+function getConfigName(): string {
+  return "cok";
+}
+
 const getConfig = (() => {
   let config: Config | null = null;
   return async function getConfig(): Promise<Config> {
     if (config === null) {
-      config = await loadConfig("cok");
+      config = await loadConfig(getConfigName());
     }
     return config;
   };
