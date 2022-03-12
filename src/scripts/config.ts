@@ -6,7 +6,7 @@ import {
   checkFormatString,
   checkFormatSet,
 } from "./formatstring";
-import {assert, hasProp} from "./utils";
+import { assert, hasProp } from "./utils";
 
 interface ImportFormats {
   "LibraryThing": FormatSet<Config>;
