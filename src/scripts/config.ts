@@ -12,7 +12,7 @@ interface ImportFormats {
   "LibraryThing": FormatSet<Config>;
 }
 
-export const IMPORT_FORMATS = {
+export const IMPORT_FORMATS: ImportFormats = {
   "LibraryThing": {
     "title": "{Title}",
     "author": "{Primary Author}",
