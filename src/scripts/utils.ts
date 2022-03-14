@@ -19,14 +19,18 @@ export function never(msg: never): never {
   fatalError(msg);
 }
 
+export function showError(error: unknown) {
+  console.error(error);
+  if (error instanceof Error) {
+    alert(error.message);
+  }
+}
+
 export function showErrors(func: () => void) {
   try {
     func();
   } catch (error: unknown) {
-    console.error(error);
-    if (error instanceof Error) {
-      alert(error.message);
-    }
+    showError(error);
   }
 }
 

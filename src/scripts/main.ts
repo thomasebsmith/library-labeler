@@ -8,7 +8,7 @@ import {
   createSheets,
   exportPDF
 } from "./sheet";
-import { assert, showErrors } from "./utils";
+import { assert, showError, showErrors } from "./utils";
 
 let sheetData: SheetData | null = null;
 
@@ -43,7 +43,7 @@ fileUploadEl.addEventListener("change", () => {
     const file = fileUploadEl.files[0];
     setSheetData(await processFile(file));
 
-  })().catch((e: Error) => showErrors(() => { throw e; }));
+  })().catch(showError);
 });
 
 generateLabelsEl.addEventListener("click", () => {
