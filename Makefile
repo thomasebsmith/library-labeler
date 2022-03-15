@@ -1,9 +1,15 @@
+# Usage:
+#   make build/debug
+#   make build/release
+#   make clean
+
 # Configuration #
 # ============= #
 BUILD_DIR = build
 SRC_DIR = src
 STATIC_DIR = static
 SCRIPTS_DIR = $(SRC_DIR)/scripts
+MAIN_SCRIPT = main
 
 # Static dependencies #
 # =================== #
@@ -13,7 +19,6 @@ STATIC_FILES = $(wildcard ${STATIC_DIR}/*.html) \
 
 # Script dependencies #
 # =================== #
-MAIN_SCRIPT = main
 SCRIPTS = $(wildcard ${SCRIPTS_DIR}/*.ts)
 
 # Rules #
