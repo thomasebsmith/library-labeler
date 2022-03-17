@@ -33,6 +33,8 @@ function setSheetData(data: SheetData | null) {
 setSheetData(null);
 
 fileUploadEl.value = "";
+
+// Whenever a file is uploaded, extract its data immediately.
 fileUploadEl.addEventListener("change", () => {
   (async () => {
     setSheetData(null);
@@ -62,6 +64,7 @@ generateCompanionEl.addEventListener("click", () => {
 
 addPartialSheetEl.addEventListener("click", () => addPartialSheet());
 
+// Add a partial sheet to the partial sheet UI.
 function addPartialSheet(newSheet = unusedSheet()) {
   const partialEl = document.createElement("div");
   partialEl.classList.add("partial");
@@ -78,12 +81,14 @@ function addPartialSheet(newSheet = unusedSheet()) {
   partialSheetsEl.appendChild(partialEl);
 }
 
+// Create an entirely unused PartialSheet.
 function unusedSheet(): PartialSheet {
   return new Array(Avery5412.NUM_ROWS)
     .fill(null)
     .map(() => new Array(Avery5412.NUM_COLS).fill(CellState.Free));
 }
 
+// Get PartialSheet objects based on the partial sheet UI.
 function getPartialSheets(): PartialSheet[] {
   const partials: PartialSheet[] = [];
   for (const partialEl of Array.from(partialSheetsEl.children)) {
@@ -102,10 +107,12 @@ function getPartialSheets(): PartialSheet[] {
   return partials;
 }
 
+// Get the configuration name to use. Currently constant.
 function getConfigName(): string {
   return "cok";
 }
 
+// Get the current configuration. Caches after the first call.
 const getConfig = (() => {
   let config: Config | null = null;
   return async function getConfig(): Promise<Config> {
@@ -116,12 +123,14 @@ const getConfig = (() => {
   };
 })();
 
+// Extracts all data from the file.
 async function processFile(file: File): Promise<SheetData> {
   const config = await getConfig();
   const items = await extractItems(file, config);
   return getSheetData(items, config);
 }
 
+// Export the labels PDF based on data.
 function exportLabelsPDF(data: SheetData) {
   const [labelSheets, _] = createSheets(
     data.map(d => d.label), 
@@ -131,6 +140,7 @@ function exportLabelsPDF(data: SheetData) {
   exportPDF(labelSheets, "labels.pdf");
 }
 
+// Export the companion PDF based on data.
 function exportCompanionPDF(data: SheetData) {
   const [companionSheets, _] = createSheets(
     data.map(d => d.companion), 
