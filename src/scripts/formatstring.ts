@@ -28,6 +28,9 @@ function unescapeBackslashes(string: string): string {
   return string.replace(ESCAPED_REGEX, "$1");
 }
 
+// Fill in a format string based on a given environment.
+// Each {name} is replaced with environment[name].
+// Curly braces *within a name* can be escaped using a preceding backslash.
 export function format(
   string: string,
   environment: FormatEnvironment
@@ -42,6 +45,8 @@ export function format(
   });
 }
 
+// Fills in a format string with additional config.
+// See format(...) documentation for format string syntax.
 export function applyFormatConfig(
   config: FormatConfig,
   environment: FormatEnvironment
@@ -53,6 +58,10 @@ export function applyFormatConfig(
   return text;
 }
 
+// Creates a new format environment (key-value mapping) based on derivedFormats.
+// Each key in derivedFormats should map to either a format string (which will
+// be filled in based on environment) or a function (which will be passed
+// environment, metadata, and the key).
 export function deriveFormats<T>(
   environment: FormatEnvironment,
   derivedFormats: FormatSet<T>,
@@ -74,12 +83,15 @@ export function deriveFormats<T>(
   return Object.assign(newEnvironment, addedEnvironment);
 }
 
+// Checks that string is a valid format string. Currently this does not check
+// the curly brace syntax at all.
 export function checkFormatString(
   string: unknown
 ): asserts string is FormatString {
   assert(typeof string === "string", "format must be a string");
 }
 
+// Checks that config is a valid FormatConfig.
 export function checkFormatConfig(
   config: unknown
 ): asserts config is FormatConfig {
@@ -95,6 +107,7 @@ export function checkFormatConfig(
   }
 }
 
+// Checks that set is a valid FormatSet<T>.
 export function checkFormatSet<T>(set: unknown): asserts set is FormatSet<T> {
   // NB: This does not allow function format sets.
   assert(
