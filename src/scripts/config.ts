@@ -8,18 +8,30 @@ import {
 } from "./formatstring";
 import { assert, hasProp } from "./utils";
 
+export interface ImportFormat {
+  parse: {
+    quoteChar?: string;
+  };
+  extract: FormatSet<Config>;
+}
+
 interface ImportFormats {
-  "LibraryThing": FormatSet<Config>;
+  "LibraryThing": ImportFormat;
 }
 
 export const IMPORT_FORMATS: ImportFormats = {
   "LibraryThing": {
-    "title": "{Title}",
-    "author": "{Primary Author}",
-    "categories": "{Collections}",
-    "dewey": "{Dewey Decimal}",
-    "call_number": "{Other Call Number}"
-  }
+    parse: {
+      quoteChar: "",
+    },
+    extract: {
+      "title": "{Title}",
+      "author": "{Primary Author}",
+      "categories": "{Collections}",
+      "dewey": "{Dewey Decimal}",
+      "call_number": "{Other Call Number}",
+    },
+  },
 };
 
 export type ImportFormatName = keyof ImportFormats;

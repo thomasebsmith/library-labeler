@@ -1,5 +1,5 @@
-import { parse as papaParse } from "papaparse";
-import { Config, IMPORT_FORMATS } from "./config";
+import { parse as papaParse, ParseError, ParseLocalConfig } from "papaparse";
+import { Config, ImportFormat, IMPORT_FORMATS } from "./config";
 import {
   FormatEnvironment,
   FormatSet,
@@ -54,23 +54,41 @@ const DERIVED_FORMAT: FormatSet<Config> = {
   }
 };
 
-function parseTSV(file: File): Promise<FormatEnvironment[]> {
+function getErrorMessage(error: ParseError): string {
+  if (hasProp(error, "index")) {
+    return `${error.message} (row ${error.row}, index ${error.index})`;
+  } else {
+    return `${error.message} (row ${error.row})`;
+  }
+}
+
+function parseTSV(
+  file: File,
+  format: ImportFormat
+): Promise<FormatEnvironment[]> {
   return new Promise((
     resolve: (envs: FormatEnvironment[]) => void,
     reject: (error: Error) => void
   ) => {
-    papaParse<FormatEnvironment>(file, {
+    const config: ParseLocalConfig<FormatEnvironment, File> = {
       delimiter: "\t",
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
         if (results.errors.length > 0) {
-          reject(new AggregateError(results.errors));
+          reject(new AggregateError(
+            results.errors,
+            results.errors.map(getErrorMessage).join("\n")
+          ));
         } else {
           resolve(results.data);
         }
       }
-    });
+    };
+    if (format.parse.quoteChar !== undefined) {
+      config.quoteChar = format.parse.quoteChar;
+    }
+    papaParse<FormatEnvironment>(file, config);
   });
 }
 
@@ -78,17 +96,18 @@ export async function extractItems(
   file: File,
   config: Config
 ): Promise<FormatEnvironment[]> {
-  const items = await parseTSV(file);
   assert(
     hasProp(IMPORT_FORMATS, config.import_format),
     `Invalid import_format "${config.import_format}"`
   );
 
-  const importFormat = IMPORT_FORMATS[config.import_format];
+  const format = IMPORT_FORMATS[config.import_format];
+
+  const items = await parseTSV(file, format);
 
   return items.map(item =>
     deriveFormats(
-      deriveFormats(item, importFormat, config),
+      deriveFormats(item, format.extract, config),
       DERIVED_FORMAT,
       config
     )
