@@ -1,3 +1,4 @@
+// An error because of invalid state.
 export class AssertionError extends Error {
   constructor(msg: string) {
     super(msg);
@@ -5,20 +6,25 @@ export class AssertionError extends Error {
   }
 }
 
+// If condition is false, throws an AssertionError with the message msg.
 export function assert(condition: boolean, msg: string): asserts condition {
   if (!condition) {
     throw new AssertionError(msg);
   }
 }
 
+// Throws an AssertionError with the message msg.
 export function fatalError(msg: string): never {
   assert(false, msg);
 }
 
+// Invalid function. Call in places that can be statically determined to never
+// execute.
 export function never(msg: never): never {
   fatalError(msg);
 }
 
+// Prints error to the console and alerts the user if it is an Error instance.
 export function showError(error: unknown) {
   console.error(error);
   if (error instanceof Error) {
@@ -26,6 +32,7 @@ export function showError(error: unknown) {
   }
 }
 
+// Shows any error that occurs when executing func.
 export function showErrors(func: () => void) {
   try {
     func();
@@ -36,6 +43,7 @@ export function showErrors(func: () => void) {
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
+// Returns whether object has a property called propertyName.
 export function hasProp<Key extends PropertyKey>(
   object: object,
   propertyName: Key
