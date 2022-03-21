@@ -15,7 +15,8 @@ MAIN_SCRIPT = main
 # =================== #
 STATIC_FILES = $(wildcard ${STATIC_DIR}/*.html) \
 			   $(wildcard ${STATIC_DIR}/styles/*.css) \
-			   $(wildcard ${STATIC_DIR}/config/*.json)
+			   $(wildcard ${STATIC_DIR}/config/generate/*.json) \
+			   $(wildcard ${STATIC_DIR}/config/import/*.json)
 
 # Script dependencies #
 # =================== #

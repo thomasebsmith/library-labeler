@@ -8,6 +8,9 @@ import {
 } from "./formatstring";
 import { assert, hasProp } from "./utils";
 
+const configDir = "./config";
+const generateConfigDir = `${configDir}/generate`;
+
 export interface ImportFormat {
   parse: {
     quoteChar?: string;
@@ -172,7 +175,7 @@ export async function loadConfig(configName: string): Promise<Config> {
     "Config name contains invalid characters"
   );
 
-  const response = await fetch(`./config/${configName}.json`);
+  const response = await fetch(`${generateConfigDir}/${configName}.json`);
   assert(response.ok, `Could not fetch config "${configName}"`);
 
   const config = await response.json();
