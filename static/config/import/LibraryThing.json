@@ -1,0 +1,12 @@
+{
+  "parse": {
+    "quoteChar": ""
+  },
+  "extract": {
+    "title": "{Title}",
+    "author": "{Primary Author}",
+    "categories": "{Collections}",
+    "dewey": "{Dewey Decimal}",
+    "call_number": "{Other Call Number}"
+  }
+}
