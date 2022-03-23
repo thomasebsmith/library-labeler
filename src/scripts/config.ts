@@ -167,18 +167,19 @@ function checkConfig(config: unknown): asserts config is Config {
   );
 }
 
-const CONFIG_NAME_REGEX = /^[a-zA-Z0-9_-]+$/;
+const JSON_NAME_REGEX = /^[a-zA-Z0-9_-]+$/;
+
+async function loadJSON(name: string, directory: string): Promise<unknown> {
+  assert(JSON_NAME_REGEX.test(name), "Config name contains invalid characters");
+
+  const response = await fetch(`${directory}/${name}.json`);
+  assert(response.ok, `Could not fetch config "${name}"`);
+
+  return await response.json();
+}
 
 export async function loadConfig(configName: string): Promise<Config> {
-  assert(
-    CONFIG_NAME_REGEX.test(configName),
-    "Config name contains invalid characters"
-  );
-
-  const response = await fetch(`${generateConfigDir}/${configName}.json`);
-  assert(response.ok, `Could not fetch config "${configName}"`);
-
-  const config = await response.json();
+  const config = await loadJSON(configName, generateConfigDir);
   checkConfig(config);
   return config;
 }
