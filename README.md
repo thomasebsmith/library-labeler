@@ -1,5 +1,5 @@
 # Library Labeler
-Library Labeler is a web app for easily creating labels for your library items.
+Library Labeler is a webapp for easily creating labels for your library items.
 Currently, it supports generating a PDF that will print on Avery 5412 label
 sheets. It also generates a companion sheet that tells you which item each label
 corresponds to.
