@@ -7,7 +7,7 @@ import {
   applyFormatConfig,
   deriveFormats,
 } from "./formatstring";
-import { assert, hasProp } from "./utils";
+import { assert, cachedAsync, hasProp } from "./utils";
 
 const BEGIN_ARTICLES_REGEX = /^[^a-z0-9]*(a|an|the)\s+/i;
 const NON_ALPHANUM_REGEX = /[^a-zA-Z0-9]/g;
@@ -92,11 +92,13 @@ function parseTSV(
   });
 }
 
+const loadCachedImportFormat = cachedAsync(loadImportFormat);
+
 export async function extractItems(
   file: File,
   config: Config
 ): Promise<FormatEnvironment[]> {
-  const format = await loadImportFormat(config.import_format);
+  const format = await loadCachedImportFormat(config.import_format);
 
   const items = await parseTSV(file, format);
 

@@ -1,4 +1,4 @@
-import { Config, loadConfig } from "./config";
+import { loadConfig } from "./config";
 import { SheetData, extractItems, getSheetData } from "./extractdata";
 import {
   Avery5412,
@@ -8,7 +8,7 @@ import {
   createSheets,
   exportPDF
 } from "./sheet";
-import { assert, showError, showErrors } from "./utils";
+import { assert, cachedAsync, showError, showErrors } from "./utils";
 
 let sheetData: SheetData | null = null;
 
@@ -112,16 +112,10 @@ function getConfigName(): string {
   return "cok";
 }
 
+const loadCachedConfig = cachedAsync(loadConfig);
+
 // Get the current configuration. Caches after the first call.
-const getConfig = (() => {
-  let config: Config | null = null;
-  return async function getConfig(): Promise<Config> {
-    if (config === null) {
-      config = await loadConfig(getConfigName());
-    }
-    return config;
-  };
-})();
+const getConfig = () => loadCachedConfig(getConfigName());
 
 // Extracts all data from the file.
 async function processFile(file: File): Promise<SheetData> {

@@ -50,3 +50,20 @@ export function hasProp<Key extends PropertyKey>(
 ): object is Record<Key, unknown> {
   return hasOwnProperty.call(object, propertyName);
 }
+
+type AsyncFunc<K, R> = (key: K) => Promise<R>;
+
+// Creates a caching version of an async function. Does not cache errors.
+export function cachedAsync<K extends string, R>(
+  func: AsyncFunc<K, R>
+): AsyncFunc<K, R> {
+  const cache = new Map();
+  return async (key: K) => {
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    const result = await func(key);
+    cache.set(key, result);
+    return result;
+  };
+}
