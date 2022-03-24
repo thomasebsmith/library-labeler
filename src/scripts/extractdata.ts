@@ -1,5 +1,5 @@
 import { parse as papaParse, ParseError, ParseLocalConfig } from "papaparse";
-import { Config, ImportFormat, IMPORT_FORMATS } from "./config";
+import { Config, ImportFormat, loadImportFormat } from "./config";
 import {
   FormatEnvironment,
   FormatSet,
@@ -96,12 +96,7 @@ export async function extractItems(
   file: File,
   config: Config
 ): Promise<FormatEnvironment[]> {
-  assert(
-    hasProp(IMPORT_FORMATS, config.import_format),
-    `Invalid import_format "${config.import_format}"`
-  );
-
-  const format = IMPORT_FORMATS[config.import_format];
+  const format = await loadImportFormat(config.import_format);
 
   const items = await parseTSV(file, format);
 

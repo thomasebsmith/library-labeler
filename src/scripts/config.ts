@@ -10,6 +10,7 @@ import { assert, hasProp } from "./utils";
 
 const configDir = "./config";
 const generateConfigDir = `${configDir}/generate`;
+const importConfigDir = `${configDir}/import`;
 
 export interface ImportFormat {
   parse: {
@@ -17,27 +18,6 @@ export interface ImportFormat {
   };
   extract: FormatSet<Config>;
 }
-
-interface ImportFormats {
-  "LibraryThing": ImportFormat;
-}
-
-export const IMPORT_FORMATS: ImportFormats = {
-  "LibraryThing": {
-    parse: {
-      quoteChar: "",
-    },
-    extract: {
-      "title": "{Title}",
-      "author": "{Primary Author}",
-      "categories": "{Collections}",
-      "dewey": "{Dewey Decimal}",
-      "call_number": "{Other Call Number}",
-    },
-  },
-};
-
-export type ImportFormatName = keyof ImportFormats;
 
 interface Categories {
   [name: string]: {
@@ -65,7 +45,7 @@ export interface Config {
   categories: Categories;
   formats: Formats;
   abbreviation: Abbreviation;
-  import_format: ImportFormatName;
+  import_format: string;
 }
 
 function checkCategories(
@@ -161,10 +141,28 @@ function checkConfig(config: unknown): asserts config is Config {
     typeof config.import_format === "string",
     "import_format must be a string"
   );
+}
+
+function checkImportFormat(format: unknown): asserts format is ImportFormat {
   assert(
-    hasProp(IMPORT_FORMATS, config.import_format),
-    "Invalid import_format"
+    typeof format === "object" && format !== null,
+    "format must be an object"
   );
+
+  assert(hasProp(format, "parse"), "parse is required");
+  assert(
+    typeof format.parse === "object" && format.parse !== null,
+    "parse must be an object"
+  );
+  if (hasProp(format.parse, "quoteChar")) {
+    assert(
+      typeof format.parse.quoteChar === "string",
+      "quoteChar must be a string"
+    );
+  }
+
+  assert(hasProp(format, "extract"), "extract is required");
+  checkFormatSet(format.extract);
 }
 
 const JSON_NAME_REGEX = /^[a-zA-Z0-9_-]+$/;
@@ -173,9 +171,17 @@ async function loadJSON(name: string, directory: string): Promise<unknown> {
   assert(JSON_NAME_REGEX.test(name), "Config name contains invalid characters");
 
   const response = await fetch(`${directory}/${name}.json`);
-  assert(response.ok, `Could not fetch config "${name}"`);
+  assert(response.ok, `Could not fetch config "${directory}/${name}"`);
 
   return await response.json();
+}
+
+export async function loadImportFormat(
+  formatName: string
+): Promise<ImportFormat> {
+  const format = await loadJSON(formatName, importConfigDir);
+  checkImportFormat(format);
+  return format;
 }
 
 export async function loadConfig(configName: string): Promise<Config> {
