@@ -14,7 +14,9 @@ const importConfigDir = `${configDir}/import`;
 
 export interface ImportFormat {
   parse: {
-    quoteChar?: string;
+    delimiter: string;
+    quote_char?: string;
+    skip_empty_lines?: boolean;
   };
   extract: FormatSet<Config>;
 }
@@ -154,10 +156,22 @@ function checkImportFormat(format: unknown): asserts format is ImportFormat {
     typeof format.parse === "object" && format.parse !== null,
     "parse must be an object"
   );
-  if (hasProp(format.parse, "quoteChar")) {
+
+  assert(hasProp(format.parse, "delimiter"), "delimiter is required");
+  assert(
+    typeof format.parse.delimiter === "string",
+    "delimiter must be a string"
+  );
+  if (hasProp(format.parse, "quote_char")) {
     assert(
-      typeof format.parse.quoteChar === "string",
-      "quoteChar must be a string"
+      typeof format.parse.quote_char === "string",
+      "quote_char must be a string"
+    );
+  }
+  if (hasProp(format.parse, "skip_empty_lines")) {
+    assert(
+      typeof format.parse.skip_empty_lines === "boolean",
+      "skip_empty_lines must be a string"
     );
   }
 

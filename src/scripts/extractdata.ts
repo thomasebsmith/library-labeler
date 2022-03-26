@@ -62,7 +62,7 @@ function getErrorMessage(error: ParseError): string {
   }
 }
 
-function parseTSV(
+function parseDelimitedFile(
   file: File,
   format: ImportFormat
 ): Promise<FormatEnvironment[]> {
@@ -71,9 +71,9 @@ function parseTSV(
     reject: (error: Error) => void
   ) => {
     const config: ParseLocalConfig<FormatEnvironment, File> = {
-      delimiter: "\t",
+      delimiter: format.parse.delimiter,
       header: true,
-      skipEmptyLines: true,
+      skipEmptyLines: format.parse.skip_empty_lines ?? true,
       complete: (results) => {
         if (results.errors.length > 0) {
           reject(new AggregateError(
@@ -85,8 +85,8 @@ function parseTSV(
         }
       }
     };
-    if (format.parse.quoteChar !== undefined) {
-      config.quoteChar = format.parse.quoteChar;
+    if (format.parse.quote_char !== undefined) {
+      config.quoteChar = format.parse.quote_char;
     }
     papaParse<FormatEnvironment>(file, config);
   });
@@ -100,7 +100,7 @@ export async function extractItems(
 ): Promise<FormatEnvironment[]> {
   const format = await loadCachedImportFormat(config.import_format);
 
-  const items = await parseTSV(file, format);
+  const items = await parseDelimitedFile(file, format);
 
   return items.map(item =>
     deriveFormats(

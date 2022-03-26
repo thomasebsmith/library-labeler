@@ -1,6 +1,8 @@
 {
   "parse": {
-    "quoteChar": ""
+    "delimiter": "\t",
+    "quote_char": "",
+    "skip_empty_lines": true
   },
   "extract": {
     "title": "{Title}",
