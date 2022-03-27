@@ -12,6 +12,10 @@ import { assert, cachedAsync, hasProp } from "./utils";
 const BEGIN_ARTICLES_REGEX = /^[^a-z0-9]*(a|an|the)\s+/i;
 const NON_ALPHANUM_REGEX = /[^a-zA-Z0-9]/g;
 
+// Abbreviates a name based on config. If isWords and
+// config.abbreviation.remove_articles are true, removes articles from the
+// beginning of name.
+// Uses max_name_characters and remove_articles from config.abbreviation.
 function abbrevName(name: string, isWords: boolean, config: Config): string {
   if (isWords && config.abbreviation.remove_articles) {
     name = name.replace(BEGIN_ARTICLES_REGEX, "");
@@ -20,6 +24,8 @@ function abbrevName(name: string, isWords: boolean, config: Config): string {
     .substring(0, config.abbreviation.max_name_characters);
 }
 
+// Abbreviates a string representation of a number based on config.
+// Uses abbreviation.max_decimal_places from config.
 function abbrevDecimal(decimal: string, config: Config): string {
   const parts = decimal.split(".");
   if (parts.length < 2) {
@@ -35,6 +41,7 @@ function abbrevDecimal(decimal: string, config: Config): string {
   return `${integer}.${abbrevFraction}`;
 }
 
+// Modified values created based on imported information.
 const DERIVED_FORMAT: FormatSet<Config> = {
   "title_abbrev": ({title}, config) => abbrevName(title, true, config),
   "author_abbrev": ({author}, config) => abbrevName(author, false, config),
@@ -54,6 +61,7 @@ const DERIVED_FORMAT: FormatSet<Config> = {
   }
 };
 
+// Creates an error message from a PapaParse error.
 function getErrorMessage(error: ParseError): string {
   if (hasProp(error, "index")) {
     return `${error.message} (row ${error.row}, index ${error.index})`;
@@ -62,6 +70,8 @@ function getErrorMessage(error: ParseError): string {
   }
 }
 
+// Asynchronously parses all rows in file based on format.
+// The return value is an array of (column name) -> (column value) mappings.
 function parseDelimitedFile(
   file: File,
   format: ImportFormat
@@ -94,6 +104,8 @@ function parseDelimitedFile(
 
 const loadCachedImportFormat = cachedAsync(loadImportFormat);
 
+// Asynchronously extracts standard information (title, author, etc.) from file
+// based on config.
 export async function extractItems(
   file: File,
   config: Config
@@ -111,8 +123,11 @@ export async function extractItems(
   );
 }
 
+// An array of cells for both the label and companion sheets.
 export type SheetData = { label: string; companion: string }[];
 
+// Creates label/companion information based on config and the standard
+// information in items.
 export function getSheetData(
   items: FormatEnvironment[],
   config: Config
